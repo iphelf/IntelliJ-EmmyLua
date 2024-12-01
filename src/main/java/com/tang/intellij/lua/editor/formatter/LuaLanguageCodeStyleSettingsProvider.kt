@@ -74,6 +74,10 @@ class LuaLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider()
                         "ALIGN_TABLE_FIELD_ASSIGN",
                         "Align table field assign",
                         "Table")
+                consumer.showCustomOption(LuaCodeStyleSettings::class.java,
+                    "END_LINE_WITH_SEMICOLON",
+                    "End line with semicolon",
+                    "Line")
             }
             else -> {
             }

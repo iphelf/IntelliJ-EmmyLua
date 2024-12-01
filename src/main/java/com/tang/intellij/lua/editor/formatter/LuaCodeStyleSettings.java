@@ -31,6 +31,7 @@ public class LuaCodeStyleSettings extends CustomCodeStyleSettings {
     public boolean SPACE_INSIDE_INLINE_TABLE = true;
 
     public boolean ALIGN_TABLE_FIELD_ASSIGN = false;
+    public boolean END_LINE_WITH_SEMICOLON = true;
 
     LuaCodeStyleSettings(CodeStyleSettings container) {
         super(LuaLanguage.INSTANCE.getID(), container);
