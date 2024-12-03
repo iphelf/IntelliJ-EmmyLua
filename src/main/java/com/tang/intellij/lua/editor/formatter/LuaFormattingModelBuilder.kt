@@ -73,6 +73,7 @@ class LuaFormattingModelBuilder : FormattingModelBuilder {
                 .around(BINARY_OP).spaces(if (luaCodeStyleSettings.SPACE_AROUND_BINARY_OPERATOR) 1 else 0)
                 .around(UNARY_OP).none()
                 .around(ASSIGN).lineBreakOrForceSpace(false, commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS) // = 号两头不能换行
+                .between(LuaParserDefinition.STAT_KEYWORD_TOKENS, SEMI).none()
                 .around(LuaParserDefinition.KEYWORD_TOKENS).spaces(1)
                 .around(LBRACK).none() // [
                 .before(RBRACK).none() // ]

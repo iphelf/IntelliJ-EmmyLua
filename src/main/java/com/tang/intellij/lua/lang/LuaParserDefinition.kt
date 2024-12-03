@@ -119,6 +119,11 @@ class LuaParserDefinition : ParserDefinition {
                 LuaTypes.DOUBLE_COLON,
                 LuaTypes.GOTO
         )
+        val STAT_KEYWORD_TOKENS = TokenSet.create(
+                LuaTypes.BREAK,
+                LuaTypes.RETURN,
+                LuaTypes.GOTO,
+        )
         val LUA52_BIN_OP_SET = TokenSet.create(
                 LuaTypes.BIT_AND,
                 LuaTypes.BIT_LTLT,

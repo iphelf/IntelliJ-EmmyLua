@@ -35,6 +35,8 @@ import com.tang.intellij.lua.psi.LuaVisitor
 class LuaPreFormatProcessor : PreFormatProcessor {
     private var nodeSet = setOf<IElementType>(
         LuaTypes.EXPR_STAT,
+        LuaTypes.BREAK_STAT,
+        LuaTypes.GOTO_STAT,
         LuaTypes.RETURN_STAT,
         LuaTypes.ASSIGN_STAT,
         LuaTypes.LOCAL_DEF,
