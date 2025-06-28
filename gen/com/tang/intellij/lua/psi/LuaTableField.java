@@ -20,38 +20,29 @@ public interface LuaTableField extends LuaClassField, PsiNameIdentifierOwner, Lu
   @Nullable
   PsiElement getId();
 
-  @Nullable
-  PsiElement getNameIdentifier();
+  @Nullable PsiElement getNameIdentifier();
 
-  @NotNull
-  PsiElement setName(@NotNull String name);
+  @NotNull PsiElement setName(@NotNull String name);
 
-  @Nullable
-  String getName();
+  @Nullable String getName();
 
   int getTextOffset();
 
-  @Nullable
-  String getFieldName();
+  @Nullable String getFieldName();
 
-  @NotNull
-  ItemPresentation getPresentation();
+  @NotNull ItemPresentation getPresentation();
 
-  @NotNull
-  ITy guessParentType(@NotNull SearchContext context);
+  @NotNull ITy guessParentType(@NotNull SearchContext context);
 
-  @NotNull
-  Visibility getVisibility();
+  @NotNull Visibility getVisibility();
 
   int getWorth();
 
   boolean isDeprecated();
 
-  @Nullable
-  LuaComment getComment();
+  @Nullable LuaComment getComment();
 
-  @Nullable
-  LuaExpr getIdExpr();
+  @Nullable LuaExpr getIdExpr();
 
   @Nullable
   PsiElement getLbrack();

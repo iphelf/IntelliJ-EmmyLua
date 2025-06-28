@@ -18,11 +18,16 @@ import com.tang.intellij.lua.search.SearchContext;
 import com.tang.intellij.lua.ty.ITy;
 import com.tang.intellij.lua.ty.ITyClass;
 import com.intellij.psi.stubs.IStubElementType;
+import org.jetbrains.annotations.ApiStatus.Experimental;
 import com.intellij.psi.tree.IElementType;
 
 public class LuaFuncDefImpl extends StubBasedPsiElementBase<LuaFuncStub> implements LuaFuncDef {
 
-  public LuaFuncDefImpl(@NotNull LuaFuncStub stub, @NotNull IStubElementType type) {
+  public LuaFuncDefImpl(@NotNull LuaFuncStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public LuaFuncDefImpl(@NotNull LuaFuncStub stub, @NotNull IElementType type) {
     super(stub, type);
   }
 
@@ -38,6 +43,7 @@ public class LuaFuncDefImpl extends StubBasedPsiElementBase<LuaFuncStub> impleme
     visitor.visitFuncDef(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -56,38 +62,32 @@ public class LuaFuncDefImpl extends StubBasedPsiElementBase<LuaFuncStub> impleme
   }
 
   @Override
-  @Nullable
-  public LuaComment getComment() {
+  public @Nullable LuaComment getComment() {
     return LuaPsiImplUtilKt.getComment(this);
   }
 
   @Override
-  @NotNull
-  public ItemPresentation getPresentation() {
+  public @NotNull ItemPresentation getPresentation() {
     return LuaPsiImplUtilKt.getPresentation(this);
   }
 
   @Override
-  @NotNull
-  public List<LuaParamNameDef> getParamNameDefList() {
+  public @NotNull List<@NotNull LuaParamNameDef> getParamNameDefList() {
     return LuaPsiImplUtilKt.getParamNameDefList(this);
   }
 
   @Override
-  @Nullable
-  public PsiElement getNameIdentifier() {
+  public @Nullable PsiElement getNameIdentifier() {
     return LuaPsiImplUtilKt.getNameIdentifier(this);
   }
 
   @Override
-  @NotNull
-  public PsiElement setName(@NotNull String name) {
+  public @NotNull PsiElement setName(@NotNull String name) {
     return LuaPsiImplUtilKt.setName(this, name);
   }
 
   @Override
-  @Nullable
-  public String getName() {
+  public @Nullable String getName() {
     return LuaPsiImplUtilKt.getName(this);
   }
 
@@ -97,26 +97,22 @@ public class LuaFuncDefImpl extends StubBasedPsiElementBase<LuaFuncStub> impleme
   }
 
   @Override
-  @NotNull
-  public String toString() {
+  public @NotNull String toString() {
     return LuaPsiImplUtilKt.toString(this);
   }
 
   @Override
-  @NotNull
-  public ITy guessReturnType(@NotNull SearchContext searchContext) {
+  public @NotNull ITy guessReturnType(@NotNull SearchContext searchContext) {
     return LuaPsiImplUtilKt.guessReturnType(this, searchContext);
   }
 
   @Override
-  @NotNull
-  public ITyClass guessParentType(@NotNull SearchContext searchContext) {
+  public @NotNull ITyClass guessParentType(@NotNull SearchContext searchContext) {
     return LuaPsiImplUtilKt.guessParentType(this, searchContext);
   }
 
   @Override
-  @NotNull
-  public Visibility getVisibility() {
+  public @NotNull Visibility getVisibility() {
     return LuaPsiImplUtilKt.getVisibility(this);
   }
 
@@ -131,14 +127,12 @@ public class LuaFuncDefImpl extends StubBasedPsiElementBase<LuaFuncStub> impleme
   }
 
   @Override
-  @NotNull
-  public LuaParamInfo[] getParams() {
+  public @NotNull LuaParamInfo @NotNull [] getParams() {
     return LuaPsiImplUtilKt.getParams(this);
   }
 
   @Override
-  @NotNull
-  public PsiReference[] getReferences() {
+  public @NotNull PsiReference @NotNull [] getReferences() {
     return LuaPsiImplUtilKt.getReferences(this);
   }
 

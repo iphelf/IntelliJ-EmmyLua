@@ -12,7 +12,7 @@ import static com.tang.intellij.lua.psi.LuaTypes.*;
 %%
 
 %{
-    private LuaLanguageLevel level = LuaLanguageLevel.LUA54;
+    private LuaLanguageLevel level = LuaLanguageLevel.LUAU;
     public _LuaLexer(LuaLanguageLevel level) {
         this((Reader) null);
         this.level = level;
@@ -121,6 +121,7 @@ LONG_STRING=\[=*\[[\s\S]*\]=*\]
    }
   "and"                       { return AND; }
   "break"                     { return BREAK; }
+  "continue"                  { if(level.getVersion() < LuaLanguageLevel.LUAU.getVersion()) return ID; else return CONTINUE; }
   "do"                        { return DO; }
   "else"                      { return ELSE; }
   "elseif"                    { return ELSEIF; }

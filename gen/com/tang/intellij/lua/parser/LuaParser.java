@@ -43,10 +43,10 @@ public class LuaParser implements PsiParser, LightPsiParser {
     create_token_set_(BINARY_EXPR, CALL_EXPR, CLOSURE_EXPR, EXPR,
       INDEX_EXPR, LITERAL_EXPR, NAME_EXPR, PAREN_EXPR,
       TABLE_EXPR, UNARY_EXPR),
-    create_token_set_(ASSIGN_STAT, BREAK_STAT, DO_STAT, EMPTY_STAT,
-      EXPR_STAT, FOR_A_STAT, FOR_B_STAT, GOTO_STAT,
-      IF_STAT, LABEL_STAT, REPEAT_STAT, RETURN_STAT,
-      WHILE_STAT),
+    create_token_set_(ASSIGN_STAT, BREAK_STAT, CONTINUE_STAT, DO_STAT,
+      EMPTY_STAT, EXPR_STAT, FOR_A_STAT, FOR_B_STAT,
+      GOTO_STAT, IF_STAT, LABEL_STAT, REPEAT_STAT,
+      RETURN_STAT, WHILE_STAT),
   };
 
   /* ********************************************************** */
@@ -353,6 +353,19 @@ public class LuaParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // continue
+  public static boolean continueStat(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "continueStat")) return false;
+    if (!nextTokenIs(b, CONTINUE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, CONTINUE);
+    register_hook_(b, LEFT_BINDER, MY_LEFT_COMMENT_BINDER);
+    exit_section_(b, m, CONTINUE_STAT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // classMethodDef | funcDef | localFuncDef | localDef
   static boolean defStat(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "defStat")) return false;
@@ -638,7 +651,7 @@ public class LuaParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b, l, _LEFT_, INDEX_EXPR, null);
     r = consumeToken(b, DOT);
-    r = r && repeat(b, l + 1, checkFuncPrefix_parser_, 1);
+    r = r && repeat(b, l + 1, LuaParser::checkFuncPrefix, 1);
     r = r && consumeToken(b, ID);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -761,14 +774,14 @@ public class LuaParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // returnStat | breakStat
+  // returnStat | breakStat | continueStat
   static boolean lastStat(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "lastStat")) return false;
-    if (!nextTokenIs(b, "", BREAK, RETURN)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = returnStat(b, l + 1);
     if (!r) r = breakStat(b, l + 1);
+    if (!r) r = continueStat(b, l + 1);
     register_hook_(b, LEFT_BINDER, MY_LEFT_COMMENT_BINDER);
     exit_section_(b, m, null, r);
     return r;
@@ -985,7 +998,7 @@ public class LuaParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_);
     r = parList_0(b, l + 1);
     if (!r) r = consumeToken(b, ELLIPSIS);
-    exit_section_(b, l, m, r, false, parList_recover_parser_);
+    exit_section_(b, l, m, r, false, LuaParser::parList_recover);
     return r;
   }
 
@@ -1216,14 +1229,14 @@ public class LuaParser implements PsiParser, LightPsiParser {
     if (!r) r = gotoStat(b, l + 1);
     if (!r) r = assignStat(b, l + 1);
     if (!r) r = exprStat(b, l + 1);
-    exit_section_(b, l, m, r, false, stat_recover_parser_);
+    exit_section_(b, l, m, r, false, LuaParser::stat_recover);
     return r;
   }
 
   /* ********************************************************** */
   // !(ID
   //     | ',' | ';'
-  //     | 'local' | 'do' | 'while' | 'repeat' | 'function' | 'if' | 'for' | 'return' | break
+  //     | 'local' | 'do' | 'while' | 'repeat' | 'function' | 'if' | 'for' | 'return' | break | continue
   //     | nil | true | false | STRING | NUMBER | '::' | 'goto'
   //     | unaryOp)
   static boolean stat_recover(PsiBuilder b, int l) {
@@ -1237,7 +1250,7 @@ public class LuaParser implements PsiParser, LightPsiParser {
 
   // ID
   //     | ',' | ';'
-  //     | 'local' | 'do' | 'while' | 'repeat' | 'function' | 'if' | 'for' | 'return' | break
+  //     | 'local' | 'do' | 'while' | 'repeat' | 'function' | 'if' | 'for' | 'return' | break | continue
   //     | nil | true | false | STRING | NUMBER | '::' | 'goto'
   //     | unaryOp
   private static boolean stat_recover_0(PsiBuilder b, int l) {
@@ -1255,6 +1268,7 @@ public class LuaParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, FOR);
     if (!r) r = consumeToken(b, RETURN);
     if (!r) r = consumeToken(b, BREAK);
+    if (!r) r = consumeToken(b, CONTINUE);
     if (!r) r = consumeToken(b, NIL);
     if (!r) r = consumeToken(b, TRUE);
     if (!r) r = consumeToken(b, FALSE);
@@ -1320,7 +1334,7 @@ public class LuaParser implements PsiParser, LightPsiParser {
     if (!r) r = expr(b, l + 1);
     register_hook_(b, LEFT_BINDER, MY_LEFT_COMMENT_BINDER);
     register_hook_(b, RIGHT_BINDER, MY_RIGHT_COMMENT_BINDER);
-    exit_section_(b, l, m, r, false, tableField_recover_parser_);
+    exit_section_(b, l, m, r, false, LuaParser::tableField_recover);
     return r;
   }
 
@@ -1484,24 +1498,4 @@ public class LuaParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  static final Parser checkFuncPrefix_parser_ = new Parser() {
-    public boolean parse(PsiBuilder b, int l) {
-      return checkFuncPrefix(b, l + 1);
-    }
-  };
-  static final Parser parList_recover_parser_ = new Parser() {
-    public boolean parse(PsiBuilder b, int l) {
-      return parList_recover(b, l + 1);
-    }
-  };
-  static final Parser stat_recover_parser_ = new Parser() {
-    public boolean parse(PsiBuilder b, int l) {
-      return stat_recover(b, l + 1);
-    }
-  };
-  static final Parser tableField_recover_parser_ = new Parser() {
-    public boolean parse(PsiBuilder b, int l) {
-      return tableField_recover(b, l + 1);
-    }
-  };
 }

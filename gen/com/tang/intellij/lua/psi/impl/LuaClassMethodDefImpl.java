@@ -16,11 +16,16 @@ import com.tang.intellij.lua.comment.psi.api.LuaComment;
 import com.tang.intellij.lua.search.SearchContext;
 import com.tang.intellij.lua.ty.ITy;
 import com.intellij.psi.stubs.IStubElementType;
+import org.jetbrains.annotations.ApiStatus.Experimental;
 import com.intellij.psi.tree.IElementType;
 
 public class LuaClassMethodDefImpl extends StubBasedPsiElementBase<LuaClassMethodStub> implements LuaClassMethodDef {
 
-  public LuaClassMethodDefImpl(@NotNull LuaClassMethodStub stub, @NotNull IStubElementType type) {
+  public LuaClassMethodDefImpl(@NotNull LuaClassMethodStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public LuaClassMethodDefImpl(@NotNull LuaClassMethodStub stub, @NotNull IElementType type) {
     super(stub, type);
   }
 
@@ -36,6 +41,7 @@ public class LuaClassMethodDefImpl extends StubBasedPsiElementBase<LuaClassMetho
     visitor.visitClassMethodDef(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -54,20 +60,17 @@ public class LuaClassMethodDefImpl extends StubBasedPsiElementBase<LuaClassMetho
   }
 
   @Override
-  @Nullable
-  public LuaComment getComment() {
+  public @Nullable LuaComment getComment() {
     return LuaPsiImplUtilKt.getComment(this);
   }
 
   @Override
-  @NotNull
-  public ITy guessParentType(@NotNull SearchContext context) {
+  public @NotNull ITy guessParentType(@NotNull SearchContext context) {
     return LuaPsiImplUtilKt.guessParentType(this, context);
   }
 
   @Override
-  @NotNull
-  public Visibility getVisibility() {
+  public @NotNull Visibility getVisibility() {
     return LuaPsiImplUtilKt.getVisibility(this);
   }
 
@@ -82,26 +85,22 @@ public class LuaClassMethodDefImpl extends StubBasedPsiElementBase<LuaClassMetho
   }
 
   @Override
-  @NotNull
-  public List<LuaParamNameDef> getParamNameDefList() {
+  public @NotNull List<@NotNull LuaParamNameDef> getParamNameDefList() {
     return LuaPsiImplUtilKt.getParamNameDefList(this);
   }
 
   @Override
-  @Nullable
-  public PsiElement getNameIdentifier() {
+  public @Nullable PsiElement getNameIdentifier() {
     return LuaPsiImplUtilKt.getNameIdentifier(this);
   }
 
   @Override
-  @NotNull
-  public PsiElement setName(@NotNull String name) {
+  public @NotNull PsiElement setName(@NotNull String name) {
     return LuaPsiImplUtilKt.setName(this, name);
   }
 
   @Override
-  @Nullable
-  public String getName() {
+  public @Nullable String getName() {
     return LuaPsiImplUtilKt.getName(this);
   }
 
@@ -111,20 +110,17 @@ public class LuaClassMethodDefImpl extends StubBasedPsiElementBase<LuaClassMetho
   }
 
   @Override
-  @NotNull
-  public String toString() {
+  public @NotNull String toString() {
     return LuaPsiImplUtilKt.toString(this);
   }
 
   @Override
-  @NotNull
-  public ITy guessReturnType(@NotNull SearchContext searchContext) {
+  public @NotNull ITy guessReturnType(@NotNull SearchContext searchContext) {
     return LuaPsiImplUtilKt.guessReturnType(this, searchContext);
   }
 
   @Override
-  @NotNull
-  public LuaParamInfo[] getParams() {
+  public @NotNull LuaParamInfo @NotNull [] getParams() {
     return LuaPsiImplUtilKt.getParams(this);
   }
 
@@ -134,8 +130,7 @@ public class LuaClassMethodDefImpl extends StubBasedPsiElementBase<LuaClassMetho
   }
 
   @Override
-  @NotNull
-  public ItemPresentation getPresentation() {
+  public @NotNull ItemPresentation getPresentation() {
     return LuaPsiImplUtilKt.getPresentation(this);
   }
 

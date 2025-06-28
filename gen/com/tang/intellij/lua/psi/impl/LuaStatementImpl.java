@@ -22,14 +22,14 @@ public class LuaStatementImpl extends ASTWrapperPsiElement implements LuaStateme
     visitor.visitStatement(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
   }
 
   @Override
-  @Nullable
-  public LuaComment getComment() {
+  public @Nullable LuaComment getComment() {
     return LuaPsiImplUtilKt.getComment(this);
   }
 

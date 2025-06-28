@@ -19,8 +19,8 @@ import com.tang.intellij.lua.stubs.LuaExprStub;
 
 public class LuaIndexExprImpl extends LuaIndexExprMixin implements LuaIndexExpr {
 
-  public LuaIndexExprImpl(@NotNull LuaIndexExprStub stub, @NotNull IStubElementType<?, ?> nodeType) {
-    super(stub, nodeType);
+  public LuaIndexExprImpl(@NotNull LuaIndexExprStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
   }
 
   public LuaIndexExprImpl(@NotNull ASTNode node) {
@@ -35,6 +35,7 @@ public class LuaIndexExprImpl extends LuaIndexExprMixin implements LuaIndexExpr 
     visitor.visitIndexExpr(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -53,20 +54,17 @@ public class LuaIndexExprImpl extends LuaIndexExprMixin implements LuaIndexExpr 
   }
 
   @Override
-  @Nullable
-  public PsiElement getNameIdentifier() {
+  public @Nullable PsiElement getNameIdentifier() {
     return LuaPsiImplUtilKt.getNameIdentifier(this);
   }
 
   @Override
-  @NotNull
-  public PsiElement setName(@NotNull String name) {
+  public @NotNull PsiElement setName(@NotNull String name) {
     return LuaPsiImplUtilKt.setName(this, name);
   }
 
   @Override
-  @Nullable
-  public String getName() {
+  public @Nullable String getName() {
     return LuaPsiImplUtilKt.getName(this);
   }
 
@@ -76,20 +74,17 @@ public class LuaIndexExprImpl extends LuaIndexExprMixin implements LuaIndexExpr 
   }
 
   @Override
-  @NotNull
-  public ItemPresentation getPresentation() {
+  public @NotNull ItemPresentation getPresentation() {
     return LuaPsiImplUtilKt.getPresentation(this);
   }
 
   @Override
-  @Nullable
-  public LuaLiteralExpr getIdExpr() {
+  public @Nullable LuaLiteralExpr getIdExpr() {
     return LuaPsiImplUtilKt.getIdExpr(this);
   }
 
   @Override
-  @NotNull
-  public ITy guessParentType(@NotNull SearchContext context) {
+  public @NotNull ITy guessParentType(@NotNull SearchContext context) {
     return LuaPsiImplUtilKt.guessParentType(this, context);
   }
 

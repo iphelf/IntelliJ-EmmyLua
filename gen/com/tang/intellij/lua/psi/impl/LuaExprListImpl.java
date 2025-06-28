@@ -14,11 +14,16 @@ import com.tang.intellij.lua.psi.*;
 import com.tang.intellij.lua.search.SearchContext;
 import com.tang.intellij.lua.ty.ITy;
 import com.intellij.psi.stubs.IStubElementType;
+import org.jetbrains.annotations.ApiStatus.Experimental;
 import com.intellij.psi.tree.IElementType;
 
 public class LuaExprListImpl extends StubBasedPsiElementBase<LuaPlaceholderStub> implements LuaExprList {
 
-  public LuaExprListImpl(@NotNull LuaPlaceholderStub stub, @NotNull IStubElementType type) {
+  public LuaExprListImpl(@NotNull LuaPlaceholderStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public LuaExprListImpl(@NotNull LuaPlaceholderStub stub, @NotNull IElementType type) {
     super(stub, type);
   }
 
@@ -34,6 +39,7 @@ public class LuaExprListImpl extends StubBasedPsiElementBase<LuaPlaceholderStub>
     visitor.visitExprList(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -46,8 +52,7 @@ public class LuaExprListImpl extends StubBasedPsiElementBase<LuaPlaceholderStub>
   }
 
   @Override
-  @NotNull
-  public ITy guessTypeAt(@NotNull SearchContext context) {
+  public @NotNull ITy guessTypeAt(@NotNull SearchContext context) {
     return LuaPsiImplUtilKt.guessTypeAt(this, context);
   }
 

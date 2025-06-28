@@ -19,42 +19,32 @@ public interface LuaClassMethodDef extends LuaClassMethod, LuaDeclaration, LuaSt
   @Nullable
   LuaFuncBody getFuncBody();
 
-  @Nullable
-  LuaComment getComment();
+  @Nullable LuaComment getComment();
 
-  @NotNull
-  ITy guessParentType(@NotNull SearchContext context);
+  @NotNull ITy guessParentType(@NotNull SearchContext context);
 
-  @NotNull
-  Visibility getVisibility();
+  @NotNull Visibility getVisibility();
 
   int getWorth();
 
   boolean isDeprecated();
 
-  @NotNull
-  List<LuaParamNameDef> getParamNameDefList();
+  @NotNull List<@NotNull LuaParamNameDef> getParamNameDefList();
 
-  @Nullable
-  PsiElement getNameIdentifier();
+  @Nullable PsiElement getNameIdentifier();
 
-  @NotNull
-  PsiElement setName(@NotNull String name);
+  @NotNull PsiElement setName(@NotNull String name);
 
-  @Nullable
-  String getName();
+  @Nullable String getName();
 
   int getTextOffset();
 
-  @NotNull
-  ITy guessReturnType(@NotNull SearchContext searchContext);
+  @NotNull ITy guessReturnType(@NotNull SearchContext searchContext);
 
-  @NotNull
-  LuaParamInfo[] getParams();
+  @NotNull LuaParamInfo @NotNull [] getParams();
 
   boolean isStatic();
 
-  @NotNull
-  ItemPresentation getPresentation();
+  @NotNull ItemPresentation getPresentation();
 
 }

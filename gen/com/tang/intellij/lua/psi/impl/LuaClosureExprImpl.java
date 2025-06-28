@@ -18,8 +18,8 @@ import com.tang.intellij.lua.stubs.LuaExprStub;
 
 public class LuaClosureExprImpl extends LuaClosureExprMixin implements LuaClosureExpr {
 
-  public LuaClosureExprImpl(@NotNull LuaClosureExprStub stub, @NotNull IStubElementType<?, ?> nodeType) {
-    super(stub, nodeType);
+  public LuaClosureExprImpl(@NotNull LuaClosureExprStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
   }
 
   public LuaClosureExprImpl(@NotNull ASTNode node) {
@@ -34,6 +34,7 @@ public class LuaClosureExprImpl extends LuaClosureExprMixin implements LuaClosur
     visitor.visitClosureExpr(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -46,20 +47,17 @@ public class LuaClosureExprImpl extends LuaClosureExprMixin implements LuaClosur
   }
 
   @Override
-  @NotNull
-  public List<LuaParamNameDef> getParamNameDefList() {
+  public @NotNull List<@NotNull LuaParamNameDef> getParamNameDefList() {
     return LuaPsiImplUtilKt.getParamNameDefList(this);
   }
 
   @Override
-  @NotNull
-  public ITy guessReturnType(@NotNull SearchContext searchContext) {
+  public @NotNull ITy guessReturnType(@NotNull SearchContext searchContext) {
     return LuaPsiImplUtilKt.guessReturnType(this, searchContext);
   }
 
   @Override
-  @NotNull
-  public LuaParamInfo[] getParams() {
+  public @NotNull LuaParamInfo @NotNull [] getParams() {
     return LuaPsiImplUtilKt.getParams(this);
   }
 

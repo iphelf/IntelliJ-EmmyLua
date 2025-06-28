@@ -16,10 +16,12 @@ public class LuaForAStatImpl extends LuaStatementImpl implements LuaForAStat {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull LuaVisitor visitor) {
     visitor.visitForAStat(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -38,8 +40,7 @@ public class LuaForAStatImpl extends LuaStatementImpl implements LuaForAStat {
   }
 
   @Override
-  @NotNull
-  public List<LuaParamNameDef> getParamNameDefList() {
+  public @NotNull List<@NotNull LuaParamNameDef> getParamNameDefList() {
     return LuaPsiImplUtilKt.getParamNameDefList(this);
   }
 

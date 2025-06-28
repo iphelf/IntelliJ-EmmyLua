@@ -18,8 +18,8 @@ import com.tang.intellij.lua.stubs.LuaExprStub;
 
 public class LuaNameExprImpl extends LuaNameExprMixin implements LuaNameExpr {
 
-  public LuaNameExprImpl(@NotNull LuaNameExprStub stub, @NotNull IStubElementType<?, ?> nodeType) {
-    super(stub, nodeType);
+  public LuaNameExprImpl(@NotNull LuaNameExprStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
   }
 
   public LuaNameExprImpl(@NotNull ASTNode node) {
@@ -34,6 +34,7 @@ public class LuaNameExprImpl extends LuaNameExprMixin implements LuaNameExpr {
     visitor.visitNameExpr(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -46,32 +47,27 @@ public class LuaNameExprImpl extends LuaNameExprMixin implements LuaNameExpr {
   }
 
   @Override
-  @NotNull
-  public PsiElement setName(@NotNull String name) {
+  public @NotNull PsiElement setName(@NotNull String name) {
     return LuaPsiImplUtilKt.setName(this, name);
   }
 
   @Override
-  @NotNull
-  public String getName() {
+  public @NotNull String getName() {
     return LuaPsiImplUtilKt.getName(this);
   }
 
   @Override
-  @NotNull
-  public PsiElement getNameIdentifier() {
+  public @NotNull PsiElement getNameIdentifier() {
     return LuaPsiImplUtilKt.getNameIdentifier(this);
   }
 
   @Override
-  @NotNull
-  public ItemPresentation getPresentation() {
+  public @NotNull ItemPresentation getPresentation() {
     return LuaPsiImplUtilKt.getPresentation(this);
   }
 
   @Override
-  @NotNull
-  public PsiReference[] getReferences() {
+  public @NotNull PsiReference @NotNull [] getReferences() {
     return LuaPsiImplUtilKt.getReferences(this);
   }
 

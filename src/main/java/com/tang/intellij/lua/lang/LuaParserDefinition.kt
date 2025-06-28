@@ -98,6 +98,7 @@ class LuaParserDefinition : ParserDefinition {
         val KEYWORD_TOKENS = TokenSet.create(
                 LuaTypes.AND,
                 LuaTypes.BREAK,
+                LuaTypes.CONTINUE,
                 LuaTypes.DO,
                 LuaTypes.ELSE,
                 LuaTypes.ELSEIF,
@@ -121,6 +122,7 @@ class LuaParserDefinition : ParserDefinition {
         )
         val STAT_KEYWORD_TOKENS = TokenSet.create(
                 LuaTypes.BREAK,
+                LuaTypes.CONTINUE,
                 LuaTypes.RETURN,
                 LuaTypes.GOTO,
         )

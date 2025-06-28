@@ -21,9 +21,12 @@ enum class LuaLanguageLevel(val version: Int) {
     LUA51(51),
     LUA52(52),
     LUA53(53),
-    LUA54(54);
+    LUA54(54),
+    LUAU(151);
 
     override fun toString(): String {
+        if (version == LUAU.version)
+            return "Luau";
         return "Lua ${version / 10}.${version % 10}"
     }
 }

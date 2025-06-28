@@ -10,12 +10,17 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.tang.intellij.lua.psi.LuaTypes.*;
 import com.tang.intellij.lua.psi.*;
 import com.intellij.psi.stubs.IStubElementType;
+import org.jetbrains.annotations.ApiStatus.Experimental;
 import com.intellij.psi.tree.IElementType;
 import com.tang.intellij.lua.stubs.LuaNameDefStub;
 
 public class LuaParamNameDefImpl extends LuaNameDefImpl implements LuaParamNameDef {
 
-  public LuaParamNameDefImpl(@NotNull LuaNameDefStub stub, @NotNull IStubElementType type) {
+  public LuaParamNameDefImpl(@NotNull LuaNameDefStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public LuaParamNameDefImpl(@NotNull LuaNameDefStub stub, @NotNull IElementType type) {
     super(stub, type);
   }
 
@@ -27,10 +32,12 @@ public class LuaParamNameDefImpl extends LuaNameDefImpl implements LuaParamNameD
     super(stub, type, node);
   }
 
+  @Override
   public void accept(@NotNull LuaVisitor visitor) {
     visitor.visitParamNameDef(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);

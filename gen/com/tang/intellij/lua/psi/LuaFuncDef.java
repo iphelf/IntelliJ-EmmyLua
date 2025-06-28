@@ -21,43 +21,32 @@ public interface LuaFuncDef extends LuaClassMethod, LuaDeclaration, LuaStatement
   @Nullable
   PsiElement getId();
 
-  @Nullable
-  LuaComment getComment();
+  @Nullable LuaComment getComment();
 
-  @NotNull
-  ItemPresentation getPresentation();
+  @NotNull ItemPresentation getPresentation();
 
-  @NotNull
-  List<LuaParamNameDef> getParamNameDefList();
+  @NotNull List<@NotNull LuaParamNameDef> getParamNameDefList();
 
-  @Nullable
-  PsiElement getNameIdentifier();
+  @Nullable PsiElement getNameIdentifier();
 
-  @NotNull
-  PsiElement setName(@NotNull String name);
+  @NotNull PsiElement setName(@NotNull String name);
 
-  @Nullable
-  String getName();
+  @Nullable String getName();
 
   int getTextOffset();
 
-  @NotNull
-  ITy guessReturnType(@NotNull SearchContext searchContext);
+  @NotNull ITy guessReturnType(@NotNull SearchContext searchContext);
 
-  @NotNull
-  ITyClass guessParentType(@NotNull SearchContext searchContext);
+  @NotNull ITyClass guessParentType(@NotNull SearchContext searchContext);
 
-  @NotNull
-  Visibility getVisibility();
+  @NotNull Visibility getVisibility();
 
   int getWorth();
 
   boolean isDeprecated();
 
-  @NotNull
-  LuaParamInfo[] getParams();
+  @NotNull LuaParamInfo @NotNull [] getParams();
 
-  @NotNull
-  PsiReference[] getReferences();
+  @NotNull PsiReference @NotNull [] getReferences();
 
 }

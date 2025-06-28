@@ -20,30 +20,22 @@ public interface LuaLocalFuncDef extends LuaFuncBodyOwner, LuaDeclaration, LuaSt
   @Nullable
   PsiElement getId();
 
-  @Nullable
-  LuaComment getComment();
+  @Nullable LuaComment getComment();
 
-  @NotNull
-  List<LuaParamNameDef> getParamNameDefList();
+  @NotNull List<@NotNull LuaParamNameDef> getParamNameDefList();
 
-  @Nullable
-  PsiElement getNameIdentifier();
+  @Nullable PsiElement getNameIdentifier();
 
-  @NotNull
-  PsiElement setName(@NotNull String name);
+  @NotNull PsiElement setName(@NotNull String name);
 
-  @Nullable
-  String getName();
+  @Nullable String getName();
 
   int getTextOffset();
 
-  @NotNull
-  SearchScope getUseScope();
+  @NotNull SearchScope getUseScope();
 
-  @NotNull
-  ITy guessReturnType(@NotNull SearchContext searchContext);
+  @NotNull ITy guessReturnType(@NotNull SearchContext searchContext);
 
-  @NotNull
-  LuaParamInfo[] getParams();
+  @NotNull LuaParamInfo @NotNull [] getParams();
 
 }

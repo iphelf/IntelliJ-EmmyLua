@@ -13,7 +13,6 @@ public interface LuaForAStat extends LuaStatement, LuaParametersOwner, LuaLoop, 
   @NotNull
   LuaParamNameDef getParamNameDef();
 
-  @NotNull
-  List<LuaParamNameDef> getParamNameDefList();
+  @NotNull List<@NotNull LuaParamNameDef> getParamNameDefList();
 
 }

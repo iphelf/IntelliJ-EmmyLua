@@ -13,11 +13,16 @@ import com.tang.intellij.lua.stubs.LuaPlaceholderStub;
 import com.tang.intellij.lua.psi.*;
 import com.tang.intellij.lua.comment.psi.api.LuaComment;
 import com.intellij.psi.stubs.IStubElementType;
+import org.jetbrains.annotations.ApiStatus.Experimental;
 import com.intellij.psi.tree.IElementType;
 
 public class LuaLocalDefImpl extends StubBasedPsiElementBase<LuaPlaceholderStub> implements LuaLocalDef {
 
-  public LuaLocalDefImpl(@NotNull LuaPlaceholderStub stub, @NotNull IStubElementType type) {
+  public LuaLocalDefImpl(@NotNull LuaPlaceholderStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public LuaLocalDefImpl(@NotNull LuaPlaceholderStub stub, @NotNull IElementType type) {
     super(stub, type);
   }
 
@@ -33,6 +38,7 @@ public class LuaLocalDefImpl extends StubBasedPsiElementBase<LuaPlaceholderStub>
     visitor.visitLocalDef(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -51,8 +57,7 @@ public class LuaLocalDefImpl extends StubBasedPsiElementBase<LuaPlaceholderStub>
   }
 
   @Override
-  @Nullable
-  public LuaComment getComment() {
+  public @Nullable LuaComment getComment() {
     return LuaPsiImplUtilKt.getComment(this);
   }
 

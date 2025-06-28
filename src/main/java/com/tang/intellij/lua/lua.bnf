@@ -38,6 +38,7 @@
         /* Keywords */
         AND = "and"
         BREAK = "break"
+        CONTINUE = "continue"
         DO = "do"
         ELSE = "else"
         ELSEIF = "elseif"
@@ -148,7 +149,7 @@ private stat_impl ::=
     }
 private stat_recover ::= !(ID
     | ',' | ';'
-    | 'local' | 'do' | 'while' | 'repeat' | 'function' | 'if' | 'for' | 'return' | break
+    | 'local' | 'do' | 'while' | 'repeat' | 'function' | 'if' | 'for' | 'return' | break | continue
     | nil | true | false | STRING | NUMBER | '::' | 'goto'
     | unaryOp)
 
@@ -352,7 +353,8 @@ returnStat ::= return exprList? {
     stubClass = "com.tang.intellij.lua.stubs.LuaPlaceholderStub"
 }
 breakStat ::= break
-private lastStat ::= returnStat | breakStat
+continueStat ::= continue
+private lastStat ::= returnStat | breakStat | continueStat
 
 exprList ::= expr (',' expr)* {
     methods = [guessTypeAt]

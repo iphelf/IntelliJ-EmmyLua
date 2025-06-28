@@ -67,6 +67,7 @@ private val L_BINDERS = TokenSet.create(
 
         ASSIGN_STAT,
         BREAK_STAT,
+        CONTINUE_STAT,
         DO_STAT,
         EXPR_STAT,
         FOR_A_STAT,

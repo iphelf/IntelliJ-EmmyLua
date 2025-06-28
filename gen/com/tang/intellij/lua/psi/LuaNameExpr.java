@@ -15,20 +15,15 @@ public interface LuaNameExpr extends LuaExpr, PsiNameIdentifierOwner, LuaExprStu
   @NotNull
   PsiElement getId();
 
-  @NotNull
-  PsiElement setName(@NotNull String name);
+  @NotNull PsiElement setName(@NotNull String name);
 
-  @NotNull
-  String getName();
+  @NotNull String getName();
 
-  @NotNull
-  PsiElement getNameIdentifier();
+  @NotNull PsiElement getNameIdentifier();
 
-  @NotNull
-  ItemPresentation getPresentation();
+  @NotNull ItemPresentation getPresentation();
 
-  @NotNull
-  PsiReference[] getReferences();
+  @NotNull PsiReference @NotNull [] getReferences();
 
   boolean isDeprecated();
 

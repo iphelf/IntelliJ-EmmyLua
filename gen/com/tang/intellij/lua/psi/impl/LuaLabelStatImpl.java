@@ -16,10 +16,12 @@ public class LuaLabelStatImpl extends LuaStatementImpl implements LuaLabelStat {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull LuaVisitor visitor) {
     visitor.visitLabelStat(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -32,8 +34,7 @@ public class LuaLabelStatImpl extends LuaStatementImpl implements LuaLabelStat {
   }
 
   @Override
-  @Nullable
-  public PsiElement getNameIdentifier() {
+  public @Nullable PsiElement getNameIdentifier() {
     return LuaPsiImplUtilKt.getNameIdentifier(this);
   }
 
@@ -43,14 +44,12 @@ public class LuaLabelStatImpl extends LuaStatementImpl implements LuaLabelStat {
   }
 
   @Override
-  @NotNull
-  public PsiElement setName(@NotNull String name) {
+  public @NotNull PsiElement setName(@NotNull String name) {
     return LuaPsiImplUtilKt.setName(this, name);
   }
 
   @Override
-  @Nullable
-  public String getName() {
+  public @Nullable String getName() {
     return LuaPsiImplUtilKt.getName(this);
   }
 

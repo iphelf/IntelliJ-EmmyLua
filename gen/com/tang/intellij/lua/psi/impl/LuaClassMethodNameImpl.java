@@ -12,11 +12,16 @@ import com.intellij.extapi.psi.StubBasedPsiElementBase;
 import com.tang.intellij.lua.stubs.LuaPlaceholderStub;
 import com.tang.intellij.lua.psi.*;
 import com.intellij.psi.stubs.IStubElementType;
+import org.jetbrains.annotations.ApiStatus.Experimental;
 import com.intellij.psi.tree.IElementType;
 
 public class LuaClassMethodNameImpl extends StubBasedPsiElementBase<LuaPlaceholderStub> implements LuaClassMethodName {
 
-  public LuaClassMethodNameImpl(@NotNull LuaPlaceholderStub stub, @NotNull IStubElementType type) {
+  public LuaClassMethodNameImpl(@NotNull LuaPlaceholderStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public LuaClassMethodNameImpl(@NotNull LuaPlaceholderStub stub, @NotNull IElementType type) {
     super(stub, type);
   }
 
@@ -32,6 +37,7 @@ public class LuaClassMethodNameImpl extends StubBasedPsiElementBase<LuaPlacehold
     visitor.visitClassMethodName(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);

@@ -65,6 +65,10 @@ public class LuaVisitor extends PsiElementVisitor {
     // visitExprStubElement(o);
   }
 
+  public void visitContinueStat(@NotNull LuaContinueStat o) {
+    visitStatement(o);
+  }
+
   public void visitDoStat(@NotNull LuaDoStat o) {
     visitStatement(o);
     // visitIndentRange(o);

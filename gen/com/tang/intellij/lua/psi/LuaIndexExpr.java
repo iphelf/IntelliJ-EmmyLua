@@ -19,29 +19,23 @@ public interface LuaIndexExpr extends LuaExpr, PsiNameIdentifierOwner, LuaClassM
   @Nullable
   PsiElement getId();
 
-  @Nullable
-  PsiElement getNameIdentifier();
+  @Nullable PsiElement getNameIdentifier();
 
-  @NotNull
-  PsiElement setName(@NotNull String name);
+  @NotNull PsiElement setName(@NotNull String name);
 
-  @Nullable
-  String getName();
+  @Nullable String getName();
 
   int getTextOffset();
 
-  @NotNull
-  ItemPresentation getPresentation();
+  @NotNull ItemPresentation getPresentation();
 
-  @Nullable
-  LuaLiteralExpr getIdExpr();
+  @Nullable LuaLiteralExpr getIdExpr();
 
   //WARNING: toString(...) is skipped
   //matching toString(LuaIndexExpr, ...)
   //methods are not found in LuaPsiImplUtilKt
 
-  @NotNull
-  ITy guessParentType(@NotNull SearchContext context);
+  @NotNull ITy guessParentType(@NotNull SearchContext context);
 
   boolean isDeprecated();
 

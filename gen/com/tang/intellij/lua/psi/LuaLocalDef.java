@@ -16,8 +16,7 @@ public interface LuaLocalDef extends LuaDeclaration, LuaStatement, LuaDeclaratio
   @Nullable
   LuaNameList getNameList();
 
-  @Nullable
-  LuaComment getComment();
+  @Nullable LuaComment getComment();
 
   @Nullable
   PsiElement getAssign();

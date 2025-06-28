@@ -8,7 +8,6 @@ import com.tang.intellij.lua.comment.psi.api.LuaComment;
 
 public interface LuaStatement extends LuaCommentOwner {
 
-  @Nullable
-  LuaComment getComment();
+  @Nullable LuaComment getComment();
 
 }

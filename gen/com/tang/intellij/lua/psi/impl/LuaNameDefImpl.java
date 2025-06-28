@@ -13,11 +13,16 @@ import com.tang.intellij.lua.stubs.LuaNameDefStub;
 import com.tang.intellij.lua.psi.*;
 import com.intellij.psi.search.SearchScope;
 import com.intellij.psi.stubs.IStubElementType;
+import org.jetbrains.annotations.ApiStatus.Experimental;
 import com.intellij.psi.tree.IElementType;
 
 public class LuaNameDefImpl extends StubBasedPsiElementBase<LuaNameDefStub> implements LuaNameDef {
 
-  public LuaNameDefImpl(@NotNull LuaNameDefStub stub, @NotNull IStubElementType type) {
+  public LuaNameDefImpl(@NotNull LuaNameDefStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public LuaNameDefImpl(@NotNull LuaNameDefStub stub, @NotNull IElementType type) {
     super(stub, type);
   }
 
@@ -33,6 +38,7 @@ public class LuaNameDefImpl extends StubBasedPsiElementBase<LuaNameDefStub> impl
     visitor.visitNameDef(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof LuaVisitor) accept((LuaVisitor)visitor);
     else super.accept(visitor);
@@ -45,26 +51,22 @@ public class LuaNameDefImpl extends StubBasedPsiElementBase<LuaNameDefStub> impl
   }
 
   @Override
-  @NotNull
-  public String getName() {
+  public @NotNull String getName() {
     return LuaPsiImplUtilKt.getName(this);
   }
 
   @Override
-  @NotNull
-  public PsiElement setName(@NotNull String name) {
+  public @NotNull PsiElement setName(@NotNull String name) {
     return LuaPsiImplUtilKt.setName(this, name);
   }
 
   @Override
-  @NotNull
-  public PsiElement getNameIdentifier() {
+  public @NotNull PsiElement getNameIdentifier() {
     return LuaPsiImplUtilKt.getNameIdentifier(this);
   }
 
   @Override
-  @NotNull
-  public SearchScope getUseScope() {
+  public @NotNull SearchScope getUseScope() {
     return LuaPsiImplUtilKt.getUseScope(this);
   }
 
