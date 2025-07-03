@@ -29,4 +29,10 @@ enum class LuaLanguageLevel(val version: Int) {
             return "Luau";
         return "Lua ${version / 10}.${version % 10}"
     }
+
+    fun getStdName(): String {
+        if (version == LUAU.version)
+            return "Luau";
+        return "Lua${version}"
+    }
 }

@@ -37,7 +37,7 @@ import javax.swing.Icon
 class StdLibraryProvider: AdditionalLibraryRootsProvider() {
     override fun getAdditionalProjectLibraries(project: Project): Collection<StdLibrary> {
         val level = LuaSettings.instance.languageLevel
-        val std = LuaFileUtil.getPluginVirtualFile("std/Lua${level.version}") ?: return emptyList()
+        val std = LuaFileUtil.getPluginVirtualFile("std/${level.getStdName()}") ?: return emptyList()
         val dir = VfsUtil.findFileByIoFile(File(std), true) ?: return emptyList()
 
         dir.children.forEach {
