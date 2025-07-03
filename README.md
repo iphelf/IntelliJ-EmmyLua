@@ -1,3 +1,20 @@
+# Fork info
+
+- Format option addition: end line with semicolon
+- Luau partial support: `continue` statement
+
+## Format option addition: end line with semicolon
+
+Configuration: enable "End line with semicolon" option in Code Style settings.
+
+![](snapshot/format_option_end_line_with_semicolon.png)
+
+## Luau partial support: `continue` statement
+
+Configuration: set Lua language level to "Luau".
+
+![](snapshot/language_level_luau.png)
+
 ![logo](/snapshot/logo.png)
 # EmmyLua for IntelliJ IDEA
 
