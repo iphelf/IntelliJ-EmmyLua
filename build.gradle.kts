@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream
 
 plugins {
     id("org.jetbrains.intellij.platform") version "2.7.0"
-    id("org.jetbrains.kotlin.jvm").version("2.1.0")
+    id("org.jetbrains.kotlin.jvm").version("2.3.0")
     id("de.undercouch.download").version("5.3.0")
 }
 
@@ -43,10 +43,10 @@ data class BuildData(
 
 val buildDataList = listOf(
     BuildData(
-        ideaSDKShortVersion = "2025.3",
-        ideaSDKVersion = "253.28086.51",
+        ideaSDKShortVersion = "2026.1",
+        ideaSDKVersion = "2026.1",
         sinceBuild = "253",
-        untilBuild = "253.*",
+        untilBuild = "261.*",
         bunch = "212",
         targetCompatibilityLevel = JavaVersion.VERSION_21,
         jvmTarget = "21"
