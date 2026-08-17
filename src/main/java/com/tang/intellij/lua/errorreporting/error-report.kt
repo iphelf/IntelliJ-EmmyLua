@@ -18,8 +18,6 @@ package com.tang.intellij.lua.errorreporting
 
 import com.intellij.CommonBundle
 import com.intellij.ide.DataManager
-import com.intellij.ide.plugins.PluginManagerCore
-import com.intellij.ide.plugins.PluginUtil
 import com.intellij.idea.IdeaLogger
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationListener
@@ -30,7 +28,6 @@ import com.intellij.openapi.application.ApplicationNamesInfo
 import com.intellij.openapi.application.ex.ApplicationInfoEx
 import com.intellij.openapi.diagnostic.*
 import com.intellij.openapi.diagnostic.SubmittedReportInfo.SubmissionStatus
-import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.progress.EmptyProgressIndicator
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
@@ -126,6 +123,30 @@ private object AnonymousFeedback {
 			}
 }
 
+private object EmmyLuaPluginInfo {
+	private val pluginXml: String? by lazy {
+		GitHubErrorReporter::class.java.classLoader
+			.getResourceAsStream("META-INF/plugin.xml")
+			?.bufferedReader()
+			?.use { it.readText() }
+	}
+
+	val name: String? by lazy { readPluginXmlTag("name") }
+	val version: String? by lazy { readPluginXmlTag("version") }
+
+	fun applyTo(error: GitHubErrorBean) {
+		if (error.pluginName.isBlank()) name?.let { error.pluginName = it }
+		if (error.pluginVersion.isBlank()) version?.let { error.pluginVersion = it }
+	}
+
+	private fun readPluginXmlTag(tagName: String): String? =
+		pluginXml
+			?.let { Regex("<$tagName>(.*?)</$tagName>", RegexOption.DOT_MATCHES_ALL).find(it) }
+			?.groupValues
+			?.get(1)
+			?.trim()
+}
+
 private const val initVector = "RandomInitVector"
 private const val key = "GitHubErrorToken"
 
@@ -162,14 +183,6 @@ class GitHubErrorReporter : LuaErrorReportSubmitter() {
 				IdeaLogger.ourLastActionId.orEmpty(),
 				description ?: "<No description>",
 				event.message ?: event.throwable.message.toString())
-		PluginUtil.getInstance().findPluginId(event.throwable)?.let { pluginId ->
-			PluginManagerCore.getPlugin(pluginId)?.let { ideaPluginDescriptor ->
-				if (!ideaPluginDescriptor.isBundled) {
-					bean.pluginName = ideaPluginDescriptor.name
-					bean.pluginVersion = ideaPluginDescriptor.version
-				}
-			}
-		}
 
 		// fix compatibility verification problems: internal API usages
 		// (event.data as? AbstractMessage)?.let { bean.attachments = it.includedAttachments }
@@ -264,10 +277,7 @@ private fun getKeyValuePairs(
 		error: GitHubErrorBean,
 		appInfo: ApplicationInfoEx,
 		namesInfo: ApplicationNamesInfo): MutableMap<String, String> {
-	PluginManagerCore.getPlugin(PluginId.findId("com.tang"))?.run {
-		if (error.pluginName.isBlank()) error.pluginName = name
-		if (error.pluginVersion.isBlank()) error.pluginVersion = version
-	}
+	EmmyLuaPluginInfo.applyTo(error)
 	val params = mutableMapOf(
 		"error.description" to error.description,
 		// TODO
