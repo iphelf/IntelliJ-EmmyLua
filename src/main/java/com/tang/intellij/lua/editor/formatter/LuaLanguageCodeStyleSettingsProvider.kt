@@ -79,6 +79,12 @@ class LuaLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider()
                     "End line with semicolon",
                     "Line")
             }
+            SettingsType.COMMENTER_SETTINGS -> {
+                consumer.showStandardOptions(
+                    "LINE_COMMENT_ADD_SPACE",
+                    "LINE_COMMENT_AT_FIRST_COLUMN"
+                )
+            }
             else -> {
             }
         }

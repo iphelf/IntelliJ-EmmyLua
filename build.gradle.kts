@@ -16,6 +16,8 @@
 
 import de.undercouch.gradle.tasks.download.Download
 import org.apache.tools.ant.taskdefs.condition.Os
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.intellij.platform.gradle.tasks.PrepareSandboxTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.ByteArrayOutputStream
@@ -35,6 +37,7 @@ data class BuildData(
     val archiveName: String = "IntelliJ-EmmyLua",
     val jvmTarget: String = "1.8",
     val targetCompatibilityLevel: JavaVersion = JavaVersion.VERSION_11,
+    val buildJdkVersion: JavaVersion = targetCompatibilityLevel,
     val explicitJavaDependency: Boolean = true,
     val bunch: String = ideaSDKShortVersion,
     // https://github.com/JetBrains/gradle-intellij-plugin/issues/403#issuecomment-542890849
@@ -43,12 +46,13 @@ data class BuildData(
 
 val buildDataList = listOf(
     BuildData(
-        ideaSDKShortVersion = "2026.1",
-        ideaSDKVersion = "2026.1",
+        ideaSDKShortVersion = "2026.2",
+        ideaSDKVersion = "2026.2",
         sinceBuild = "253",
-        untilBuild = "261.*",
+        untilBuild = "262.*",
         bunch = "212",
         targetCompatibilityLevel = JavaVersion.VERSION_21,
+        buildJdkVersion = JavaVersion.VERSION_25,
         jvmTarget = "21"
     )
 )
@@ -161,7 +165,6 @@ project(":") {
         implementation("com.google.code.gson:gson:2.8.6")
         implementation("org.scala-sbt.ipcsocket:ipcsocket:1.3.0")
         implementation("org.luaj:luaj-jse:3.0.1")
-        implementation("org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5")
         implementation("com.jgoodies:forms:1.2.1")
         intellijPlatform {
             intellijIdeaUltimate(buildVersionData.ideaSDKVersion)
@@ -181,6 +184,10 @@ project(":") {
         sourceCompatibility = buildVersionData.targetCompatibilityLevel
         targetCompatibility = buildVersionData.targetCompatibilityLevel
     }*/
+
+    kotlin {
+        jvmToolchain(buildVersionData.buildJdkVersion.majorVersion.toInt())
+    }
 
     intellijPlatform {
         version = version
@@ -230,6 +237,13 @@ project(":") {
             compilerOptions {
                 jvmTarget.set(JvmTarget.fromTarget(buildVersionData.jvmTarget))
             }
+        }
+
+        withType<JavaCompile> {
+            javaCompiler.set(project.javaToolchains.compilerFor {
+                languageVersion.set(JavaLanguageVersion.of(buildVersionData.buildJdkVersion.majorVersion.toInt()))
+            })
+            options.release.set(buildVersionData.targetCompatibilityLevel.majorVersion.toInt())
         }
 
         patchPluginXml {

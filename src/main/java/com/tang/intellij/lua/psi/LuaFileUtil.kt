@@ -16,19 +16,17 @@
 
 package com.tang.intellij.lua.psi
 
-import com.intellij.ide.plugins.PluginManagerCore
-import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.FileIndexFacade
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.util.SmartList
 import com.tang.intellij.lua.ext.ILuaFileResolver
 import com.tang.intellij.lua.project.LuaSourceRootManager
 import java.io.File
+import java.net.JarURLConnection
 
 /**
  *
@@ -36,15 +34,17 @@ import java.io.File
  */
 object LuaFileUtil {
 
-    private val pluginVirtualDirectory: VirtualFile?
-        get() {
-            val descriptor = PluginManagerCore.getPlugin(PluginId.getId("com.tang"))
-            if (descriptor != null) {
-                return VirtualFileManager.getInstance().findFileByNioPath(descriptor.pluginPath)
+    private val pluginDirectory: File? by lazy {
+        val pluginXml = LuaFileUtil::class.java.classLoader.getResource("META-INF/plugin.xml") ?: return@lazy null
+        when (pluginXml.protocol) {
+            "file" -> File(pluginXml.toURI()).parentFile?.parentFile?.parentFile
+            "jar" -> {
+                val jarFile = File((pluginXml.openConnection() as JarURLConnection).jarFileURL.toURI())
+                jarFile.parentFile?.parentFile
             }
-
-            return null
+            else -> null
         }
+    }
 
     var PREDEFINED_KEY = Key.create<Boolean>("lua.lib.predefined")
 
@@ -122,7 +122,7 @@ object LuaFileUtil {
     }
 
     fun getPluginVirtualFile(path: String): String? {
-        val directory = pluginVirtualDirectory
+        val directory = pluginDirectory
         if (directory != null) {
             var fullPath = directory.path + "/classes/" + path
             if (File(fullPath).exists())
